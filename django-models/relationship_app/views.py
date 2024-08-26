@@ -1,9 +1,17 @@
 from django.shortcuts import render
+#function based view
+from .models import Book
+#class based view
+from django.views.generic.detail import DetailView
+from .models import Library
+#auth views
+from django.shortcuts import redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 
 # Create your views here.
 
 #function based view
-from .models import Book
 
 def books_list(request):
     books = Book.objects.all()
@@ -12,8 +20,6 @@ def books_list(request):
 
 
 #class based view
-from django.views.generic.detail import DetailView
-from .models import Library
 
 class LibraryDetailView(DetailView):
     model = Library
@@ -24,3 +30,19 @@ class LibraryDetailView(DetailView):
         # Add the list of books to the context
         context['books'] = self.object.books.all()
         return context
+    
+
+
+#auth views
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Log the user in after registration
+            return redirect('login')  # Redirect to a login page 
+    else:
+        form = UserCreationForm()
+    
+    return render(request, 'relationship_app/register.html', {'form': form})
