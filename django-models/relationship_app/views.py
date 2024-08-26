@@ -1,3 +1,5 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 from django.shortcuts import render
 #function based view
 from .models import Book
@@ -6,8 +8,7 @@ from django.views.generic.detail import DetailView
 from .models import Library
 #auth views
 from django.shortcuts import redirect
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
+
 
 # Create your views here.
 
