@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--8$hau92ru@$jdr%8z!2is@=+q==-%v_bdc1ozl_36byb^g-h+'
+SECRET_KEY = 'django-insecure-^r41&7*qup$a8ung$6i-eu!0acyn1b)#k7to#xzaefxe44y7b&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -34,7 +34,13 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
+# Enforce HTTPS by redirecting all HTTP traffic to HTTPS
+SECURE_SSL_REDIRECT = True
 
+# Set HTTP Strict Transport Security (HSTS) for one year
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -136,7 +142,7 @@ from django.db import models
 class bookshelf.CustomUser(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-    CSP_DEFAULT_SRC = ("'self'",)
+CSP_DEFAULT_SRC = ("'self'",)
 CSP_SCRIPT_SRC = ("'self'", 'https://trustedscripts.example.com')
 CSP_STYLE_SRC = ("'self'", 'https://trustedstyles.example.com')
 
