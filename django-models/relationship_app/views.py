@@ -1,14 +1,13 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
-from django.shortcuts import render
 #function based view
 from .models import Book
 #class based view
 from django.views.generic.detail import DetailView
 from .models import Library
 #auth views
-from django.shortcuts import redirect
-
+from django.contrib.auth.decorators import user_passes_test
+from django.shortcuts import render, redirect
 
 # Create your views here.
 
@@ -47,3 +46,27 @@ def register(request):
         form = UserCreationForm()
     
     return render(request, 'relationship_app/register.html', {'form': form})
+
+
+
+
+def check_admin(user):
+    return user.userprofile.role == 'Admin'
+
+def check_librarian(user):
+    return user.userprofile.role == 'Librarian'
+
+def check_member(user):
+    return user.userprofile.role == 'Member'
+
+@user_passes_test(check_admin)
+def admin_view(request):
+    return render(request, 'admin_view.html')
+
+@user_passes_test(check_librarian)
+def librarian_view(request):
+    return render(request, 'librarian_view.html')
+
+@user_passes_test(check_member)
+def member_view(request):
+    return render(request, 'member_view.html')
